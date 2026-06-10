@@ -1,0 +1,11 @@
+database/
+│
+├── schema/
+│   ├── users.sql
+│   ├── folders.sql
+│   ├── categories.sql
+│   ├── documents.sql
+│   ├── tags.sql
+│   └── document_tags.sql
+│
+└── schema.sql
