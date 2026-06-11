@@ -2,6 +2,8 @@ const {
   getAllDocuments,
   getDocumentById,
   createDocument,
+  incrementDownloads,
+  searchDocuments,
 } = require("../services/documentService");
 
 const fetchDocuments = async (req, res) => {
@@ -59,8 +61,7 @@ const uploadDocument = async (req, res) => {
   });
 }
 
-    const uploaded_by =
-      "a80aef8b-d522-43d7-946b-9f78c2f3be90";
+    const uploaded_by = req.user.id;
 
     const file_url =
       `/uploads/${req.file.filename}`;
@@ -124,8 +125,27 @@ const downloadDocument =
       });
     }
   };
+
+  const searchDocument = async (req, res) => {
+  try {
+    const { q } = req.query;
+
+    const documents =
+      await searchDocuments(q || "");
+
+    res.status(200).json(documents);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
 module.exports = {
   fetchDocuments,
   getDocument,
   uploadDocument,
+  downloadDocument,
+  searchDocument,
 };
