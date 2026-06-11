@@ -6,3 +6,6 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 \i schema/documents.sql
 \i schema/tags.sql
 \i schema/document_tags.sql
+
+\i schema/search_history.sql
+\i schema/document_embeddings.sql
