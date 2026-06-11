@@ -1,12 +1,27 @@
 const express = require("express");
-const router = express.Router();
+
+const upload = require(
+  "../middleware/uploadMiddleware"
+);
 
 const {
-  getDocuments,
-  uploadDocument
-} = require("../controllers/documentController");
+  fetchDocuments,
+  getDocument,
+  uploadDocument,
+} = require(
+  "../controllers/documentController"
+);
 
-router.get("/", getDocuments);
-router.post("/upload", uploadDocument);
+const router = express.Router();
+
+router.get("/", fetchDocuments);
+
+router.get("/:id", getDocument);
+
+router.post(
+  "/upload",
+  upload.single("document"),
+  uploadDocument
+);
 
 module.exports = router;
