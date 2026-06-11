@@ -69,10 +69,36 @@ const incrementViews = async (id) => {
     [id]
   );
 };
+const incrementDownloads = async (id) => {
+  await pool.query(
+    `
+    UPDATE documents
+    SET total_downloads = total_downloads + 1
+    WHERE id = $1
+    `,
+    [id]
+  );
+};
+
+const searchDocuments = async (query) => {
+  const result = await pool.query(
+    `
+    SELECT *
+    FROM documents
+    WHERE title ILIKE $1
+    ORDER BY created_at DESC
+    `,
+    [`%${query}%`]
+  );
+
+  return result.rows;
+};
 
 module.exports = {
   getAllDocuments,
   getDocumentById,
   createDocument,
   incrementViews,
+  incrementDownloads,
+  searchDocuments,
 };
