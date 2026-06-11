@@ -1,0 +1,92 @@
+{
+  "documents": [
+    {
+      "id": "1",
+      "title": "Annual Report 2025",
+      "type": "PDF",
+      "date": "2026-05-15",
+      "size": "2.4 MB",
+      "category": "Finance"
+    },
+    {
+      "id": "2",
+      "title": "Project Proposal - Docsphere",
+      "type": "DOCX",
+      "date": "2026-06-02",
+      "size": "1.1 MB",
+      "category": "Proposals"
+    },
+    {
+      "id": "3",
+      "title": "Team Meeting Minutes",
+      "type": "TXT",
+      "date": "2026-06-08",
+      "size": "45 KB",
+      "category": "Notes"
+    },
+    {
+      "id": "5",
+      "title": "Marketing Strategy",
+      "type": "PDF",
+      "date": "2026-04-12",
+      "size": "3.2 MB",
+      "category": "Marketing"
+    },
+    {
+      "id": "6",
+      "title": "Employee Handbook",
+      "type": "PDF",
+      "date": "2026-01-10",
+      "size": "4.5 MB",
+      "category": "HR"
+    },
+    {
+      "title": "Abhishek_Dhakad_WebDev_Resume.pdf",
+      "type": "PDF",
+      "date": "2026-06-10",
+      "size": "0.0 MB",
+      "category": "Uncategorized",
+      "id": "8l-Gfmm7Ft0"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "email": "john@example.com",
+      "password": "password123",
+      "plan": "Premium",
+      "bio": "Senior Document Manager"
+    },
+    {
+      "name": "ABHISHEK Dhakad",
+      "email": "dhakadad940@gmail.com",
+      "password": "123456",
+      "plan": "Free",
+      "bio": "",
+      "id": "anmmUbUn5VE"
+    },
+    {
+      "name": "ABHISHEK Dhakad",
+      "email": "dhakadad940@gmail.com",
+      "password": "123456",
+      "plan": "Free",
+      "bio": "",
+      "id": "HCTlhmmqVc8"
+    },
+    {
+      "name": "ABHISHEK Dhakad",
+      "email": "dhakadad940@gmail.com",
+      "password": "123456",
+      "plan": "Free",
+      "bio": "",
+      "id": "kfWNEJ2fceQ"
+    }
+  ],
+  "stats": {
+    "storageUsed": "1.2 GB",
+    "storageLimit": "5 GB",
+    "sharedFiles": 14
+  },
+  "$schema": "./node_modules/json-server/schema.json"
+}

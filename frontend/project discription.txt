@@ -1,0 +1,57 @@
+### Project Overview:
+DocSphere is a document and resource management platform that enables users to upload, organize, search, and access PDFs, notes, reports, and presentations.  
+This version should focus **only on frontend functionality** (no AI features yet).  
+
+### Requirements:
+1. **Landing Page**
+   - Clean, modern UI introducing DocSphere.
+   - Sections: About, Features, Contact.
+
+2. **User Authentication (Frontend Only)**
+   - Login page with Email/Username + Password fields, "Remember Me" option, and error handling.
+   - Register page with Full Name, Email, Password, Confirm Password, password strength indicator, and Terms & Conditions checkbox.
+   - Forgot Password page (UI only) with email input and confirmation message.
+   - Redirect to Dashboard after successful login/register (mocked).
+
+3. **Dashboard**
+   - Sidebar navigation (Home, Uploads, Library, Search, Settings).
+   - Document cards with metadata (title, type, upload date).
+   - Grid/List view toggle.
+
+4. **Upload Page (UI only)**
+   - Drag‑and‑drop file upload component.
+   - Progress bar animation.
+   - File type validation (PDF, DOCX, PPTX, TXT).
+
+5. **Library/Repository**
+   - Organized folders/categories.
+   - Sorting (by date, type, name).
+   - Pagination or infinite scroll.
+
+6. **Search (non‑AI version)**
+   - Keyword search bar.
+   - Filters (file type, date range).
+   - Highlighted results.
+
+7. **Document Viewer (UI only)**
+   - Embedded PDF/Doc viewer.
+   - Navigation controls (next/previous page).
+   - Zoom in/out.
+
+8. **Settings Page**
+   - Profile management (name, email, avatar).
+   - Theme toggle (light/dark mode).
+
+### Design Guidelines:
+- Framework: React (preferred).
+- Styling: TailwindCSS or Material UI.
+- Layout: Responsive grid system, mobile‑first design.
+- Theme: Minimalist, professional, with accent colors (blue/teal).
+- Icons: Heroicons or FontAwesome.
+
+### Deliverables:
+- Fully functional **frontend prototype** with mock data.
+- Navigation flow across all pages.
+- Interactive components (upload, search, viewer).
+- Responsive design tested across devices.
+- Authentication UI (Login, Register, Forgot Password) integrated with routing
