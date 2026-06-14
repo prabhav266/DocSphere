@@ -1,14 +1,22 @@
+const path = require("path");
+
 const {
   getAllDocuments,
   getDocumentById,
   createDocument,
   incrementDownloads,
   searchDocuments,
+  updateExtractedText,
 } = require("../services/documentService");
+
+const extractPdfText = require(
+  "../utils/pdfExtractor"
+);
 
 const fetchDocuments = async (req, res) => {
   try {
-    const documents = await getAllDocuments();
+    const documents =
+      await getAllDocuments();
 
     res.status(200).json(documents);
   } catch (error) {
@@ -24,7 +32,8 @@ const getDocument = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const document = await getDocumentById(id);
+    const document =
+      await getDocumentById(id);
 
     if (!document) {
       return res.status(404).json({
@@ -54,14 +63,17 @@ const uploadDocument = async (req, res) => {
       return res.status(400).json({
         message: "File is required",
       });
-    }if (!title || !description) {
-  return res.status(400).json({
-    message:
-      "Title and description are required",
-  });
-}
+    }
 
-    const uploaded_by = req.user.id;
+    if (!title || !description) {
+      return res.status(400).json({
+        message:
+          "Title and description are required",
+      });
+    }
+
+    const uploaded_by =
+      req.user.id;
 
     const file_url =
       `/uploads/${req.file.filename}`;
@@ -78,6 +90,39 @@ const uploadDocument = async (req, res) => {
         visibility || "public"
       );
 
+    // PDF Text Extraction
+    if (
+      req.file.mimetype ===
+      "application/pdf"
+    ) {
+      try {
+        const fullPath = path.join(
+          __dirname,
+          "../../uploads",
+          req.file.filename
+        );
+
+        const extractedText =
+          await extractPdfText(
+            fullPath
+          );
+
+        await updateExtractedText(
+          document.id,
+          extractedText
+        );
+
+        console.log(
+          "PDF text extracted successfully"
+        );
+      } catch (pdfError) {
+        console.error(
+          "PDF Extraction Error:",
+          pdfError
+        );
+      }
+    }
+
     res.status(201).json(document);
   } catch (error) {
     console.error(error);
@@ -87,8 +132,6 @@ const uploadDocument = async (req, res) => {
     });
   }
 };
-
-const path = require("path");
 
 const downloadDocument =
   async (req, res) => {
@@ -126,22 +169,28 @@ const downloadDocument =
     }
   };
 
-  const searchDocument = async (req, res) => {
-  try {
-    const { q } = req.query;
+const searchDocument =
+  async (req, res) => {
+    try {
+      const { q } = req.query;
 
-    const documents =
-      await searchDocuments(q || "");
+      const documents =
+        await searchDocuments(
+          q || ""
+        );
 
-    res.status(200).json(documents);
-  } catch (error) {
-    console.error(error);
+      res.status(200).json(
+        documents
+      );
+    } catch (error) {
+      console.error(error);
 
-    res.status(500).json({
-      message: "Server Error",
-    });
-  }
-};
+      res.status(500).json({
+        message: "Server Error",
+      });
+    }
+  };
+
 module.exports = {
   fetchDocuments,
   getDocument,

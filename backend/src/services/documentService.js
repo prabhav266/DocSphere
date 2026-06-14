@@ -94,6 +94,40 @@ const searchDocuments = async (query) => {
   return result.rows;
 };
 
+const updateExtractedText = async (
+  documentId,
+  extractedText
+) => {
+  const result = await pool.query(
+    `
+    UPDATE documents
+    SET extracted_text = $1
+    WHERE id = $2
+    RETURNING *
+    `,
+    [extractedText, documentId]
+  );
+
+  return result.rows[0];
+};
+
+const updateAiSummary = async (
+  documentId,
+  summary
+) => {
+  const result = await pool.query(
+    `
+    UPDATE documents
+    SET ai_summary = $1
+    WHERE id = $2
+    RETURNING *
+    `,
+    [summary, documentId]
+  );
+
+  return result.rows[0];
+};
+
 module.exports = {
   getAllDocuments,
   getDocumentById,
@@ -101,4 +135,6 @@ module.exports = {
   incrementViews,
   incrementDownloads,
   searchDocuments,
+  updateExtractedText,
+  updateAiSummary,
 };
