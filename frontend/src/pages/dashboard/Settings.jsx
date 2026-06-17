@@ -8,12 +8,15 @@ import { useAuth } from '../../context/AuthContext';
 
 const Settings = () => {
   const { theme, toggleTheme } = useTheme();
-  const { user, updateProfile } = useAuth();
+  const { user, setUser, updateProfile } = useAuth();
   const [formData, setFormData] = useState({
     name: user?.name || '',
     bio: user?.bio || ''
   });
   const [isSaved, setIsSaved] = useState(false);
+  const [profileImage, setProfileImage] = useState(
+    user?.profile_image || null
+  );
   const handleAvatarChange = async (e) => {
     try {
       const file = e.target.files[0];
@@ -37,8 +40,22 @@ const Settings = () => {
       );
 
       const data = await response.json();
+      setProfileImage(data.profile_image);
+
+      const updatedUser = {
+        ...user,
+        profile_image: data.profile_image,
+      };
+
+      setUser(updatedUser);
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify(updatedUser)
+      );
 
       console.log(data);
+      setProfileImage(data.profile_image);
 
       alert("Profile image uploaded successfully!");
 
@@ -80,8 +97,22 @@ const Settings = () => {
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex items-center gap-6">
-                <div className="w-20 h-20 rounded-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold text-2xl border-4 border-white dark:border-slate-800 shadow-sm">
-                  {(user?.name || "User").split(" ").map(n => n[0]).join("").toUpperCase()}
+                <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white dark:border-slate-800 shadow-sm">
+                  {profileImage ? (
+                    <img
+                      src={`http://localhost:5000${profileImage}`}
+                      alt="Profile"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-primary-100 dark:bg-primary-900/40 flex items-center justify-center text-primary-700 dark:text-primary-300 font-bold text-2xl">
+                      {(user?.name || "User")
+                        .split(" ")
+                        .map((n) => n[0])
+                        .join("")
+                        .toUpperCase()}
+                    </div>
+                  )}
                 </div>
                 <div>
                   <input
