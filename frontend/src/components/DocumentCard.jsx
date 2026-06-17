@@ -42,7 +42,7 @@ const DocumentCard = ({ doc, view = 'grid' }) => {
   return (
     <Link to={`/dashboard/viewer/${doc.id}`}>
       <Card className="group hover:shadow-lg transition-all overflow-hidden border-slate-200 dark:border-slate-800">
-        <div className="aspect-[4/3] bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center relative border-b border-slate-100 dark:border-slate-800">
+        <div className="aspect-4/3 bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center relative border-b border-slate-100 dark:border-slate-800">
           <div className={cn("p-4 rounded-xl", getTypeColor(doc.type))}>
             <FileText className="h-12 w-12" />
           </div>

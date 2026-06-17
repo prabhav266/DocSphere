@@ -124,6 +124,18 @@ const updateAiSummary = async (
     `,
     [summary, documentId]
   );
+   return result.rows[0];
+};
+
+const deleteDocumentById = async (id) => {
+  const result = await pool.query(
+    `
+    DELETE FROM documents
+    WHERE id = $1
+    RETURNING *
+    `,
+    [id]
+  );
 
   return result.rows[0];
 };
@@ -137,4 +149,5 @@ module.exports = {
   searchDocuments,
   updateExtractedText,
   updateAiSummary,
+  deleteDocumentById,
 };

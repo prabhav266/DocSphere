@@ -5,6 +5,7 @@ const DocumentContext = createContext();
 
 export const DocumentProvider = ({ children }) => {
   const [documents, setDocuments] = useState([]);
+  
   const [loading, setLoading] = useState(true);
 
   const fetchDocuments = async () => {
@@ -42,13 +43,18 @@ export const DocumentProvider = ({ children }) => {
       throw error;
     }
   };
+  const removeDocument = (id) => {
+  setDocuments((prev) =>
+    prev.filter((doc) => doc.id !== id)
+  );
+};
 
   const getDocumentById = (id) => {
     return documents.find(doc => doc.id.toString() === id.toString());
   };
 
   return (
-    <DocumentContext.Provider value={{ documents, loading, addDocument, deleteDocument, getDocumentById, refreshDocuments: fetchDocuments }}>
+    <DocumentContext.Provider value={{ documents, loading, addDocument, deleteDocument,removeDocument, getDocumentById, refreshDocuments: fetchDocuments }}>
       {children}
     </DocumentContext.Provider>
   );

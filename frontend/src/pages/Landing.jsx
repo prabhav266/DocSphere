@@ -47,7 +47,7 @@ const Landing = () => {
       </nav>
 
       {/* Hero Section */}
-      <header className="pt-32 pb-16 md:pt-48 md:pb-32 px-4 bg-gradient-to-b from-primary-50/50 to-white dark:from-primary-950/20 dark:to-slate-950">
+      <header className="pt-32 pb-16 md:pt-48 md:pb-32 px-4 bg-linearto-b from-primary-50/50 to-white dark:from-primary-950/20 dark:to-slate-950">
         <div className="max-w-5xl mx-auto text-center">
           <h1 className="text-5xl md:text-7xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">
             Manage Documents with <span className="text-primary-600">Precision.</span>

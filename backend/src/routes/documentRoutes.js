@@ -10,6 +10,7 @@ const {
   uploadDocument,
   downloadDocument,
   searchDocument,
+  deleteDocument,
 } = require(
   "../controllers/documentController"
 );
@@ -22,7 +23,7 @@ const router = express.Router();
 
 router.get("/", fetchDocuments);
 
-router.get("/", fetchDocuments);
+
 router.get("/search", searchDocument);
 
 router.post(
@@ -30,6 +31,11 @@ router.post(
   protect,
   upload.single("document"),
   uploadDocument
+);
+router.delete(
+  "/:id",
+  
+  deleteDocument
 );
 
 router.get("/:id/download", downloadDocument);

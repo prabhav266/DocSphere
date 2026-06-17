@@ -7,6 +7,7 @@ const {
   incrementDownloads,
   searchDocuments,
   updateExtractedText,
+  deleteDocumentById,
 } = require("../services/documentService");
 
 const extractPdfText = require(
@@ -63,14 +64,13 @@ const uploadDocument = async (req, res) => {
       return res.status(400).json({
         message: "File is required",
       });
-    }
-
-    if (!title || !description) {
+    } if (!title || !description) {
       return res.status(400).json({
         message:
           "Title and description are required",
       });
     }
+
 
     const uploaded_by =
       req.user.id;
@@ -133,6 +133,9 @@ const uploadDocument = async (req, res) => {
   }
 };
 
+
+const fs = require("fs");
+
 const downloadDocument =
   async (req, res) => {
     try {
@@ -152,35 +155,27 @@ const downloadDocument =
         req.params.id
       );
 
-      const filePath =
-        path.join(
-          __dirname,
-          "../../",
-          document.file_url
-        );
+      const filePath = path.join(
+        process.cwd(),
+        document.file_url
+      );
 
-      res.download(filePath);
-    } catch (error) {
-      console.error(error);
+      console.log("Document:", document);
+      console.log("Downloading:", filePath);
+      console.log("Exists:", fs.existsSync(filePath));
 
-      res.status(500).json({
-        message: "Server Error",
-      });
-    }
-  };
+      console.log("Downloading:", filePath);
+      console.log("Current Directory:", process.cwd());
+      if (!fs.existsSync(filePath)) {
+        return res.status(404).json({
+          message: "File not found on server",
+          path: filePath,
+        });
+      }
 
-const searchDocument =
-  async (req, res) => {
-    try {
-      const { q } = req.query;
-
-      const documents =
-        await searchDocuments(
-          q || ""
-        );
-
-      res.status(200).json(
-        documents
+      res.download(
+        filePath,
+        document.file_name
       );
     } catch (error) {
       console.error(error);
@@ -190,11 +185,67 @@ const searchDocument =
       });
     }
   };
+const searchDocument = async (req, res) => {
+  try {
+    const { q } = req.query;
 
+    const documents = await searchDocuments(
+      q || ""
+    );
+
+    res.status(200).json(documents);
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
+const deleteDocument = async (req, res) => {
+  console.log("DELETE ROUTE HIT");
+  try {
+    const document = await getDocumentById(
+      req.params.id
+    );
+
+    if (!document) {
+      return res.status(404).json({
+        message: "Document not found",
+      });
+    }
+
+    const filePath = path.join(
+      process.cwd(),
+      document.file_url
+    );
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    await deleteDocumentById(
+      req.params.id
+    );
+
+    res.status(200).json({
+      message: "Document deleted",
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server Error",
+    });
+  }
+};
 module.exports = {
   fetchDocuments,
   getDocument,
   uploadDocument,
   downloadDocument,
   searchDocument,
+  deleteDocument,
+  
 };

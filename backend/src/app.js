@@ -8,6 +8,7 @@ const path = require("path");
 const categoryRoutes = require(
   "./routes/categoryRoutes"
 );
+const userRoutes = require("./routes/userRoutes");
 
 const app = express();
 
@@ -27,6 +28,11 @@ app.use(
 app.use(
   "/api/categories",
   categoryRoutes
+);
+
+app.use(
+  "/api/users",
+  userRoutes
 );
 
 module.exports = app;
