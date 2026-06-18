@@ -6,6 +6,7 @@ import {
   ArrowLeft,
   Trash2,
   Loader2,
+  Eye,
 } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import Button from "../../components/Button";
@@ -15,10 +16,11 @@ const Viewer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const { getDocumentById, deleteDocument,removeDocument } = useDocuments();
+  const { getDocumentById, deleteDocument, removeDocument } = useDocuments();
 
   const [doc, setDoc] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const found = getDocumentById(id);
@@ -32,7 +34,7 @@ const Viewer = () => {
   }, [id, getDocumentById, navigate]);
 
   const handleDelete = async () => {
-     {
+    {
       try {
         const response = await fetch(
           `http://localhost:5000/api/documents/${doc.id}`,
@@ -51,8 +53,8 @@ const Viewer = () => {
         console.log(data);
 
         if (response.ok) {
-          
-          
+
+
           navigate("/dashboard/library");
           window.location.reload();
         } else {
@@ -71,6 +73,29 @@ const Viewer = () => {
     );
   };
 
+  const handleOpen = () => {
+    window.open(
+      `http://localhost:5000${doc.file_url}`,
+      "_blank"
+    );
+  };
+
+  const handleShare = async () => {
+    try {
+      const shareLink = `${window.location.origin}/dashboard/view/${doc.id}`;
+
+      await navigator.clipboard.writeText(shareLink);
+
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 2000);
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
   if (loading) {
     return (
       <div className="h-[80vh] flex flex-col items-center justify-center">
@@ -131,7 +156,9 @@ const Viewer = () => {
                 </p>
 
                 <p className="text-white font-semibold">
-                  {doc.size || "Unknown"}
+                  {doc.file_size
+                    ? `${(doc.file_size / 1024 / 1024).toFixed(2)} MB`
+                    : "Unknown"}
                 </p>
               </div>
 
@@ -152,6 +179,15 @@ const Viewer = () => {
           <div className="flex flex-wrap justify-center gap-4 mt-8">
 
             <Button
+
+              className="gap-2 px-6"
+              onClick={handleOpen}
+            >
+              <Eye className="h-4 w-4" />
+              Open
+            </Button>
+
+            <Button
               className="gap-2 px-6"
               onClick={handleDownload}
             >
@@ -160,11 +196,11 @@ const Viewer = () => {
             </Button>
 
             <Button
-              variant="secondary"
               className="gap-2 px-6"
+              onClick={handleShare}
             >
               <Share2 className="h-4 w-4" />
-              Share
+              {copied ? "Copied!" : "Share"}
             </Button>
 
           </div>
@@ -172,6 +208,9 @@ const Viewer = () => {
         </div>
 
       </div>
+
+
+
 
     </div>
   );
